@@ -13,3 +13,6 @@ end note
 Browser->Server: Sending the user input to the server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
 
 Server-->Browser: HTTP status code 201
+
+![Screenshot from 2022-11-14 23-00-57](https://user-images.githubusercontent.com/79658534/201765471-c154c4b3-346c-4ebb-8cc0-b8d743a36a30.png)
+
