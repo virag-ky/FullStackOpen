@@ -25,6 +25,9 @@ note over Browser:
 Browser executes the event handler
 that renders notes to display
 end note
+<<<<<<< HEAD
 
 
 ![Screenshot from 2022-11-14 22-39-27](https://user-images.githubusercontent.com/79658534/201765385-588d132b-e5bf-449e-9d5f-a3252d2e6c4b.png)
+=======
+>>>>>>> 3a5bdec (Add course-information exercise step1)
