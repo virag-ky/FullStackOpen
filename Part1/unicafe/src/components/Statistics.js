@@ -10,21 +10,22 @@ const Statistics = ({
 }) => {
   if (all === 0) {
     return (
-      <div>
-        <h2>No feedback given</h2>
-      </div>
+      <tbody>
+        <tr>
+          <td>No feedback given</td>
+        </tr>
+      </tbody>
     );
   }
   return (
-    <div>
-      <h2>Statistics</h2>
+    <tbody>
       <StatisticLine text="Good" value={good} />
       <StatisticLine text="Neutral" value={neutral} />
       <StatisticLine text="Bad" value={bad} />
       <StatisticLine text="All" value={all} />
       <StatisticLine text="Average" value={average_feedback()} />
       <StatisticLine text="Positive" value={positive_feedback() + '%'} />
-    </div>
+    </tbody>
   );
 };
 

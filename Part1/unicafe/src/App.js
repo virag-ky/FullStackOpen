@@ -38,14 +38,17 @@ const App = () => {
       <Button onClick={addGood} text="good" />
       <Button onClick={addNeutral} text="neutral" />
       <Button onClick={addBad} text="bad" />
-      <Statistics
-        all={all}
-        good={good}
-        neutral={neutral}
-        bad={bad}
-        average_feedback={average_feedback}
-        positive_feedback={positive_feedback}
-      />
+      <table>
+        <caption>Statistics</caption>
+        <Statistics
+          all={all}
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          average_feedback={average_feedback}
+          positive_feedback={positive_feedback}
+        />
+      </table>
     </div>
   );
 };
