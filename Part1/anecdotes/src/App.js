@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import Button from './components/Button';
 
 const App = () => {
   const anecdotes = [
@@ -13,16 +14,25 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
   const selectAnecdote = () => {
     let random = Math.round(Math.random() * (anecdotes.length - 1));
     setSelected(random);
   };
 
+  const vote = () => {
+    const copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
+  };
+
   return (
     <div>
       {anecdotes[selected]}
-      <button onClick={selectAnecdote}>Next anecdote</button>
+      <p>Has {votes[selected]} votes</p>
+      <Button onClick={vote} text="Vote" />
+      <Button onClick={selectAnecdote} text="Next anecdote" />
     </div>
   );
 };
