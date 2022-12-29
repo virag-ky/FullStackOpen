@@ -6,6 +6,13 @@ const Statistics = ({
   positive_feedback,
   average_feedback,
 }) => {
+  if (all === 0) {
+    return (
+      <div>
+        <h2>No feedback given</h2>
+      </div>
+    );
+  }
   return (
     <div>
       <h2>Statistics</h2>
