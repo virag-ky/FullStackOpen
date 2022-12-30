@@ -1,5 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
+import Form from './components/Form';
+import Content from './components/Content';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -24,7 +26,14 @@ const App = () => {
     });
 
     if (!exist) {
-      setPersons(persons.concat({ name: newName, number: newNumber }));
+      const newId = persons.length + 1;
+      setPersons(
+        persons.concat({
+          name: newName,
+          number: newNumber,
+          id: newId,
+        })
+      );
       setNewName('');
       setNewNumber('');
     }
@@ -40,7 +49,7 @@ const App = () => {
 
   React.useEffect(() => {
     const results = persons.filter((person) =>
-      person.name.includes(searchValue.toUpperCase())
+      person.name.includes(searchValue.toUpperCase() && searchValue)
     );
     const copy = results.map((result) => {
       return { name: result.name, number: result.number, id: result.id };
@@ -50,38 +59,16 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <div>
-        Filter shown with{' '}
-        <input
-          type="search"
-          value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value)}
-        />
-      </div>
-      <form onSubmit={addNewName}>
-        <div>
-          name: <input value={newName} onChange={onChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={onChangeNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {filtered.length !== 0
-        ? filtered.map((person) => (
-            <p key={person.id}>
-              {person.name} {person.number}
-            </p>
-          ))
-        : persons.map((person) => (
-            <p key={person.id}>
-              {person.name} {person.number}
-            </p>
-          ))}
+      <Form
+        addNewName={addNewName}
+        onChange={onChange}
+        onChangeNumber={onChangeNumber}
+        newName={newName}
+        newNumber={newNumber}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
+      <Content filtered={filtered} persons={persons} />
     </div>
   );
 };
