@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import { readyException } from 'jquery';
 
 const App = () => {
   const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
@@ -7,8 +8,18 @@ const App = () => {
 
   const addNewName = (event) => {
     event.preventDefault();
-    setPersons(persons.concat({ name: newName }));
-    setNewName('');
+    const exist = persons.some((person) => {
+      if (person.name === newName) {
+        alert(`${newName} is already added to phonebook`);
+        return true;
+      }
+      return false;
+    });
+
+    if (!exist) {
+      setPersons(persons.concat({ name: newName }));
+      setNewName('');
+    }
   };
 
   const onChange = (event) => {
