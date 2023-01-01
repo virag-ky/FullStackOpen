@@ -43,21 +43,23 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  const onChangeSearch = (event) => {
+    const val = event.target.value;
+    setSearchValue(val);
+    const results = persons.filter((person) =>
+      person.name.includes(searchValue.toUpperCase() && searchValue)
+    );
+    const copy = results.map((result) => {
+      return { name: result.name, number: result.number, id: result.id };
+    });
+    setFiltered(copy);
+  };
+
   useEffect(() => {
     axios.get('http://localhost:3001/persons').then((result) => {
       setPersons(result.data);
     });
   }, []);
-
-  // React.useEffect(() => {
-  //   const results = persons.filter((person) =>
-  //     person.name.includes(searchValue.toUpperCase() && searchValue)
-  //   );
-  //   const copy = results.map((result) => {
-  //     return { name: result.name, number: result.number, id: result.id };
-  //   });
-  //   setFiltered(copy);
-  // }, [searchValue]);
 
   return (
     <div>
@@ -68,7 +70,7 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
         searchValue={searchValue}
-        setSearchValue={setSearchValue}
+        onChangeSearch={onChangeSearch}
       />
       <Content filtered={filtered} persons={persons} />
     </div>

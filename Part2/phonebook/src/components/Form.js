@@ -5,18 +5,14 @@ const Form = ({
   onChangeNumber,
   addNewName,
   searchValue,
-  setSearchValue,
+  onChangeSearch,
 }) => {
   return (
     <div>
       <h2>Phonebook</h2>
       <div>
         Filter shown with{' '}
-        <input
-          type="search"
-          value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value)}
-        />
+        <input type="search" value={searchValue} onChange={onChangeSearch} />
       </div>
       <form onSubmit={addNewName}>
         <div>
