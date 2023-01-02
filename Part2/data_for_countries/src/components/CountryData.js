@@ -24,7 +24,8 @@ const CountryData = ({
       <h2>Weather in {capital}</h2>
       <span>Temperature: {temp} Celsius</span>
       <br />
-      <img />
+      <img src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`} />
+      <br />
       <span>Wind: {wind} m/s</span>
     </div>
   );
