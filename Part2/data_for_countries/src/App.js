@@ -11,18 +11,22 @@ const App = () => {
   const [data, setData] = useState(false);
   const [weather, setWeather] = useState({});
 
-  const getWeather = (curr) => {
-    const lat = curr.capitalInfo.latlng[0];
-    const lon = curr.capitalInfo.latlng[1];
+  const convertToCelsius = (kelvin) => kelvin - 273.15;
+
+  const getWeather = (current) => {
+    const lat = current.capitalInfo.latlng[0];
+    const lon = current.capitalInfo.latlng[1];
 
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=
+        ${lat}&lon=${lon}&appid=${process.env.REACT_APP_API_KEY}`
       )
-      .then((data) => {
-        const temp = data.data.main.temp;
-        const weatherIcon = data.data.weather[0].icon;
-        const wind = data.data.wind.speed;
+      .then((result) => {
+        const temp = result.data.main.temp;
+        const weatherIcon = result.data.weather[0].icon;
+        const wind = result.data.wind.speed;
+
         setWeather({ temp, weatherIcon, wind });
       });
   };
@@ -57,6 +61,7 @@ const App = () => {
   };
 
   const displayCurrentData = () => {
+    const tempC = convertToCelsius(weather.temp);
     return (
       <CountryData
         name={currCountry.name.common}
@@ -64,7 +69,7 @@ const App = () => {
         area={currCountry.area}
         png={currCountry.flags.png}
         languages={currCountry.languages}
-        temp={weather.temp}
+        temp={tempC}
         weatherIcon={weather.weatherIcon}
         wind={weather.wind}
       />
@@ -98,6 +103,7 @@ const App = () => {
       });
     } else {
       getWeather(filtered[0]);
+      const tempC = convertToCelsius(weather.temp);
       return (
         <CountryData
           name={filtered[0].name.common}
@@ -105,7 +111,7 @@ const App = () => {
           area={filtered[0].area}
           png={filtered[0].flags.png}
           languages={filtered[0].languages}
-          temp={weather.temp}
+          temp={tempC}
           weatherIcon={weather.weatherIcon}
           wind={weather.wind}
         />
