@@ -9,6 +9,23 @@ const App = () => {
   const [loaded, setLoaded] = useState(false);
   const [currCountry, setCurrCountry] = useState({});
   const [data, setData] = useState(false);
+  const [weather, setWeather] = useState({});
+
+  const getWeather = (curr) => {
+    const lat = curr.capitalInfo.latlng[0];
+    const lon = curr.capitalInfo.latlng[1];
+
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_API_KEY}`
+      )
+      .then((data) => {
+        const temp = data.data.main.temp;
+        const weatherIcon = data.data.weather[0].icon;
+        const wind = data.data.wind.speed;
+        setWeather({ temp, weatherIcon, wind });
+      });
+  };
 
   useEffect(() => {
     axios.get('https://restcountries.com/v3.1/all').then((response) => {
@@ -16,6 +33,12 @@ const App = () => {
       setCountries(countryNames);
     });
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      getWeather(currCountry);
+    }
+  }, [currCountry]);
 
   const getResults = (event) => {
     setSearchValue(event.target.value);
@@ -41,6 +64,9 @@ const App = () => {
         area={currCountry.area}
         png={currCountry.flags.png}
         languages={currCountry.languages}
+        temp={weather.temp}
+        weatherIcon={weather.weatherIcon}
+        wind={weather.wind}
       />
     );
   };
@@ -71,16 +97,19 @@ const App = () => {
         );
       });
     } else {
-      return filtered.map((item) => (
+      getWeather(filtered[0]);
+      return (
         <CountryData
-          key={item.name.official}
-          name={item.name.common}
-          capital={item.capital}
-          area={item.area}
-          png={item.flags.png}
-          languages={item.languages}
+          name={filtered[0].name.common}
+          capital={filtered[0].capital}
+          area={filtered[0].area}
+          png={filtered[0].flags.png}
+          languages={filtered[0].languages}
+          temp={weather.temp}
+          weatherIcon={weather.weatherIcon}
+          wind={weather.wind}
         />
-      ));
+      );
     }
   };
 
