@@ -1,11 +1,14 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import CountryData from './components/CountryData';
 
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [loaded, setLoaded] = useState(false);
+  const [currCountry, setCurrCountry] = useState({});
+  const [data, setData] = useState(false);
 
   useEffect(() => {
     axios.get('https://restcountries.com/v3.1/all').then((response) => {
@@ -17,6 +20,29 @@ const App = () => {
   const getResults = (event) => {
     setSearchValue(event.target.value);
     setLoaded(true);
+    setData(false);
+  };
+
+  const showData = (event) => {
+    const current = countries.filter((country) => {
+      if (event.target.id === country.name.official) {
+        return country;
+      }
+    });
+    setCurrCountry(current[0]);
+    setData(true);
+  };
+
+  const displayCurrentData = () => {
+    return (
+      <CountryData
+        name={currCountry.name.common}
+        capital={currCountry.capital}
+        area={currCountry.area}
+        png={currCountry.flags.png}
+        languages={currCountry.languages}
+      />
+    );
   };
 
   const displayCountries = () => {
@@ -25,9 +51,7 @@ const App = () => {
         setLoaded(false);
         return country;
       } else if (
-        country.name.common
-          .toLowerCase()
-          .includes(searchValue.toLocaleLowerCase())
+        country.name.common.toLowerCase().includes(searchValue.toLowerCase())
       ) {
         return country;
       }
@@ -36,22 +60,26 @@ const App = () => {
     if (filtered.length > 10) {
       return <p>Too many matches, specify another filter.</p>;
     } else if (filtered.length <= 10 && filtered.length > 1) {
-      return filtered.map((item) => <p key={item.id}>{item.name.common}</p>);
+      return filtered.map((item) => {
+        return (
+          <div key={item.name.official}>
+            {item.name.common}
+            <button id={item.name.official} onClick={showData}>
+              Show
+            </button>
+          </div>
+        );
+      });
     } else {
       return filtered.map((item) => (
-        <div key={item.name.official}>
-          <h1>{item.name.common}</h1>
-          <span>Capital: {item.capital}</span>
-          <br />
-          <span>Area: {item.area}</span>
-          <h2>Languages:</h2>
-          <ul>
-            {Object.values(item.languages).map((language) => (
-              <li key={language}>{language}</li>
-            ))}
-          </ul>
-          <img alt="country flag" src={item.flags.png} />
-        </div>
+        <CountryData
+          key={item.name.official}
+          name={item.name.common}
+          capital={item.capital}
+          area={item.area}
+          png={item.flags.png}
+          languages={item.languages}
+        />
       ));
     }
   };
@@ -62,6 +90,7 @@ const App = () => {
         Find countries <input type="text" onChange={getResults} />
       </label>
       <div>{loaded ? displayCountries() : ''}</div>
+      <div>{data ? displayCurrentData() : ''}</div>
     </div>
   );
 };
