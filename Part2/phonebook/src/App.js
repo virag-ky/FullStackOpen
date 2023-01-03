@@ -2,14 +2,19 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Form from './components/Form';
 import Content from './components/Content';
-import axios from 'axios';
+import personService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchValue, setSearchValue] = useState('');
+  const [loaded, setLoaded] = useState(true);
   const [filtered, setFiltered] = useState([]);
+
+  useEffect(() => {
+    personService.getAll().then((personsList) => setPersons(personsList));
+  }, []);
 
   const addNewName = (event) => {
     event.preventDefault();
@@ -27,13 +32,11 @@ const App = () => {
         number: newNumber,
       };
 
-      axios
-        .post('http://localhost:3001/persons', personObject)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-          setNewName('');
-          setNewNumber('');
-        });
+      personService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName('');
+        setNewNumber('');
+      });
     }
   };
 
@@ -46,22 +49,19 @@ const App = () => {
   };
 
   const onChangeSearch = (event) => {
-    const val = event.target.value;
-    setSearchValue(val);
-    const results = persons.filter((person) =>
-      person.name.includes(searchValue.toUpperCase() && searchValue)
-    );
-    const copy = results.map((result) => {
-      return { name: result.name, number: result.number, id: result.id };
+    setSearchValue(event.target.value);
+    const result = persons.filter((person) => {
+      if (searchValue === '') {
+        setLoaded(true);
+      } else if (
+        person.name.toLowerCase().includes(searchValue.toLowerCase())
+      ) {
+        setLoaded(false);
+        return person;
+      }
     });
-    setFiltered(copy);
+    setFiltered(result);
   };
-
-  useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((result) => {
-      setPersons(result.data);
-    });
-  }, []);
 
   return (
     <div>
@@ -74,7 +74,7 @@ const App = () => {
         searchValue={searchValue}
         onChangeSearch={onChangeSearch}
       />
-      <Content filtered={filtered} persons={persons} />
+      {loaded ? <Content persons={persons} /> : <Content persons={filtered} />}
     </div>
   );
 };
