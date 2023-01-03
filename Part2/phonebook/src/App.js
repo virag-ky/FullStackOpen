@@ -22,16 +22,18 @@ const App = () => {
     });
 
     if (!exist) {
-      const newId = persons.length + 1;
-      setPersons(
-        persons.concat({
-          name: newName,
-          number: newNumber,
-          id: newId,
-        })
-      );
-      setNewName('');
-      setNewNumber('');
+      const personObject = {
+        name: newName,
+        number: newNumber,
+      };
+
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName('');
+          setNewNumber('');
+        });
     }
   };
 
