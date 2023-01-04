@@ -17,7 +17,7 @@ const App = () => {
       .getAll()
       .then((personsList) => setPersons(personsList))
       .catch((error) => console.log('Something went wrong!', error));
-  }, []);
+  }, [persons]);
 
   const addNewName = (event) => {
     event.preventDefault();
@@ -70,7 +70,8 @@ const App = () => {
   };
 
   const deletePerson = (id) => {
-    console.log(id);
+    personService.deleteId(id);
+    setPersons(persons);
   };
 
   return (
