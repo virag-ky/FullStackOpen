@@ -1,29 +1,19 @@
 {
   "persons": [
     {
+      "name": "Jane Doe",
+      "number": "34-23-1234",
+      "id": 1
+    },
+    {
       "name": "John Doe",
-      "number": "222222222222",
-      "id": 2
-    },
-    {
-      "name": "Jane Doe ",
-      "number": "456789",
-      "id": 4
-    },
-    {
-      "name": "maisy1",
-      "number": "11111",
-      "id": 5
+      "number": "45-78-2345",
+      "id": 3
     },
     {
       "name": "maisy",
-      "number": "22222",
-      "id": 6
-    },
-    {
-      "name": "maisy ",
-      "number": "23456",
-      "id": 7
+      "number": "67-13-2678",
+      "id": 4
     }
   ]
 }

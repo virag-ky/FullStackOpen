@@ -108,7 +108,7 @@ const App = () => {
   return (
     <div id="app-container">
       <h2>Phonebook</h2>
-      {message !== '' ? <Notification message={message} /> : ''}
+      <Notification message={message} />
       <Form
         addNewName={addNewName}
         onChange={(event) => setNewName(event.target.value)}
