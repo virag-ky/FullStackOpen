@@ -14,15 +14,16 @@ const Form = ({
         Filter shown with{' '}
         <input type="search" value={searchValue} onChange={onChangeSearch} />
       </div>
+      <h2>Add new</h2>
       <form onSubmit={addNewName}>
         <div>
-          name: <input value={newName} onChange={onChange} />
+          Name: <input value={newName} onChange={onChange} />
         </div>
         <div>
-          number: <input value={newNumber} onChange={onChangeNumber} />
+          Number: <input value={newNumber} onChange={onChangeNumber} />
         </div>
         <div>
-          <button type="submit">add</button>
+          <button type="submit">ADD</button>
         </div>
       </form>
     </div>

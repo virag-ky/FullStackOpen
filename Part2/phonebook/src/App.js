@@ -25,13 +25,26 @@ const App = () => {
 
   const addNewName = (event) => {
     event.preventDefault();
+
     if (newName === '' && newNumber === '') {
       return;
     }
 
     const exist = persons.some((person) => {
       if (person.name === newName) {
-        alert(`${newName} is already added to phonebook`);
+        if (
+          window.confirm(
+            `${person.name} is already added to phonebook, replace the old number with a new one?`
+          )
+        ) {
+          const updatedPerson = {
+            ...person,
+            number: newNumber,
+          };
+          personService.update(person.id, updatedPerson);
+          setNewName('');
+          setNewNumber('');
+        }
         return true;
       }
       return false;
