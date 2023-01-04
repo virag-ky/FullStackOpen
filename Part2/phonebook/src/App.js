@@ -13,7 +13,10 @@ const App = () => {
   const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
-    personService.getAll().then((personsList) => setPersons(personsList));
+    personService
+      .getAll()
+      .then((personsList) => setPersons(personsList))
+      .catch((error) => console.log('Something went wrong!', error));
   }, []);
 
   const addNewName = (event) => {
@@ -32,11 +35,14 @@ const App = () => {
         number: newNumber,
       };
 
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName('');
-        setNewNumber('');
-      });
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((error) => console.log('Adding a new person failed!', error));
     }
   };
 
@@ -63,6 +69,10 @@ const App = () => {
     setFiltered(result);
   };
 
+  const deletePerson = (id) => {
+    console.log(id);
+  };
+
   return (
     <div>
       <Form
@@ -74,7 +84,11 @@ const App = () => {
         searchValue={searchValue}
         onChangeSearch={onChangeSearch}
       />
-      {loaded ? <Content persons={persons} /> : <Content persons={filtered} />}
+      {loaded ? (
+        <Content persons={persons} deletePerson={deletePerson} />
+      ) : (
+        <Content persons={filtered} deletePerson={deletePerson} />
+      )}
     </div>
   );
 };
