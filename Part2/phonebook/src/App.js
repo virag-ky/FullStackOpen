@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Form from './components/Form';
 import Content from './components/Content';
 import personService from './services/persons';
+import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loaded, setLoaded] = useState(true);
   const [filtered, setFiltered] = useState([]);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     personService
@@ -42,8 +44,10 @@ const App = () => {
             number: newNumber,
           };
           personService.update(person.id, updatedPerson);
+          setMessage(`Phone number is updated for ${person.name}`);
           setNewName('');
           setNewNumber('');
+          removeMessage();
         }
         return true;
       }
@@ -60,8 +64,10 @@ const App = () => {
         .create(personObject)
         .then((returnedPerson) => {
           setPersons(persons.concat(returnedPerson));
+          setMessage(`Added ${newName}`);
           setNewName('');
           setNewNumber('');
+          removeMessage();
         })
         .catch((error) => console.log('Adding a new person failed!', error));
     }
@@ -93,8 +99,16 @@ const App = () => {
     }
   };
 
+  const removeMessage = () => {
+    setTimeout(() => {
+      setMessage('');
+    }, 5000);
+  };
+
   return (
     <div>
+      <h2>Phonebook</h2>
+      {message !== '' ? <Notification message={message} /> : ''}
       <Form
         addNewName={addNewName}
         onChange={(event) => setNewName(event.target.value)}
