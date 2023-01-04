@@ -19,8 +19,16 @@ const App = () => {
       .catch((error) => console.log('Something went wrong!', error));
   }, [persons]);
 
+  useEffect(() => {
+    filterPeople();
+  }, [searchValue]);
+
   const addNewName = (event) => {
     event.preventDefault();
+    if (newName === '' && newNumber === '') {
+      return;
+    }
+
     const exist = persons.some((person) => {
       if (person.name === newName) {
         alert(`${newName} is already added to phonebook`);
@@ -46,23 +54,19 @@ const App = () => {
     }
   };
 
-  const onChange = (event) => {
-    setNewName(event.target.value);
-  };
-
-  const onChangeNumber = (event) => {
-    setNewNumber(event.target.value);
-  };
-
   const onChangeSearch = (event) => {
     setSearchValue(event.target.value);
+    setLoaded(false);
+  };
+
+  const filterPeople = () => {
     const result = persons.filter((person) => {
       if (searchValue === '') {
         setLoaded(true);
+        return person;
       } else if (
         person.name.toLowerCase().includes(searchValue.toLowerCase())
       ) {
-        setLoaded(false);
         return person;
       }
     });
@@ -80,17 +84,18 @@ const App = () => {
     <div>
       <Form
         addNewName={addNewName}
-        onChange={onChange}
-        onChangeNumber={onChangeNumber}
+        onChange={(event) => setNewName(event.target.value)}
+        onChangeNumber={(event) => setNewNumber(event.target.value)}
         newName={newName}
         newNumber={newNumber}
         searchValue={searchValue}
         onChangeSearch={onChangeSearch}
       />
-      {loaded ? (
-        <Content persons={persons} deletePerson={deletePerson} />
-      ) : (
+      {loaded ? <Content persons={persons} deletePerson={deletePerson} /> : ''}
+      {!loaded ? (
         <Content persons={filtered} deletePerson={deletePerson} />
+      ) : (
+        ''
       )}
     </div>
   );
