@@ -2,7 +2,7 @@ import Info from './Info';
 
 const Content = ({ persons, deletePerson }) => {
   return (
-    <div>
+    <div id="content">
       <h2>Numbers</h2>
       {persons.map((person) => (
         <Info

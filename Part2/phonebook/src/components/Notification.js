@@ -1,7 +1,7 @@
 const Notification = ({ message }) => {
   return (
     <div>
-      <p>{message}</p>
+      <p id="success">{message}</p>
     </div>
   );
 };

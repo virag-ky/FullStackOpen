@@ -106,7 +106,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div id="app-container">
       <h2>Phonebook</h2>
       {message !== '' ? <Notification message={message} /> : ''}
       <Form

@@ -11,18 +11,25 @@ const Form = ({
     <div>
       <div>
         Filter shown with{' '}
-        <input type="search" value={searchValue} onChange={onChangeSearch} />
+        <input
+          id="search"
+          type="search"
+          value={searchValue}
+          onChange={onChangeSearch}
+        />
       </div>
       <h2>Add new</h2>
       <form onSubmit={addNewName}>
-        <div>
+        <div className="input-container">
           Name: <input value={newName} onChange={onChange} />
         </div>
-        <div>
+        <div className="input-container">
           Number: <input value={newNumber} onChange={onChangeNumber} />
         </div>
-        <div>
-          <button type="submit">ADD</button>
+        <div id="submit-container">
+          <button id="submit" type="submit">
+            ADD
+          </button>
         </div>
       </form>
     </div>
