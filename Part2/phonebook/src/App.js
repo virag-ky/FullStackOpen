@@ -69,9 +69,11 @@ const App = () => {
     setFiltered(result);
   };
 
-  const deletePerson = (id) => {
-    personService.deleteId(id);
-    setPersons(persons);
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService.deleteId(id);
+      setPersons(persons);
+    }
   };
 
   return (
