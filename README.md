@@ -1,6 +1,6 @@
 # FullStackOpen
 
-> This repository contains my exercise submissions for the [Full Stack Open](https://fullstackopen.com/) course.
+> This repository contains my exercise submissions for the [Full Stack Open](https://fullstackopen.com/) course from Part 0-2.
 
 > The course introduces modern web application development using JavaScript. The main focus is on single page applications implemented using the React library, and the REST interfaces implemented with Node.js that support them. The course also introduces you to the interface implementation principle of GraphQL, i.e. an alternative to REST.
 
